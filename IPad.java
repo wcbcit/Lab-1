@@ -1,11 +1,7 @@
-import java.util.Objects;
-
 /**
- * The IPad class represents an ipad device.
- * It extends the IDevice class.
- * It contains an inherited instance variable to store the purpose of the device.
- * It also contains unique instance variables to indicate if the device has a case and the version of the operating system.
- * It contains getters and setters for all instance variables.
+ * The IPad class represents the class of Apple IPod devices.
+ * It contains an instance variable to store the operating system and if a device has a case.
+ * It contains a getter and setter for the instance variable.
  * It contains a method to print the details of the device.
  * It also contains methods to override toString(), equals(), and hashCode().
  *
@@ -15,99 +11,116 @@ import java.util.Objects;
  */
 public class IPad extends IDevice
 {
-    private static final String purposeIPad = "learning";
-
-    private String  purpose;
-    private boolean hasCase;
+    private boolean hasACase;
     private String  operatingSystemVersion;
-
+    public static final String IPAD_PURPOSE = "learning";
+    
     /**
-     * Constructs an IPad object.
-     *
-     * @param hasCase                Indicates true if the device has a case, and false otherwise.
-     * @param operatingSystemVersion The operating system version.
+     * A constructor. Sets purpose of all Ipod devices to "learning".
+     * @param hasACase True if device has a case, false if it does not.
+     * @param operatingSystemVersion Operating system of the device.
      */
-    public IPad(final boolean hasCase,
+    public IPad(final boolean hasACase,
                 final String  operatingSystemVersion)
     {
-        this.purpose                = purposeIPad;
-        this.hasCase                = hasCase;
+        super();
+        
+        if(!validateOperatingSystemVersion(operatingSystemVersion))
+        {
+            throw new IllegalArgumentException("Invalid operating system version:" + operatingSystemVersion);
+        }
+        
+        setPurpose(IPAD_PURPOSE);
+        this.hasACase               = hasACase;
         this.operatingSystemVersion = operatingSystemVersion;
     }
-
+    
     /**
-     * Returns the purpose of the device.
-     *
-     * @return The purpose of the device.
+     * A getter method for getting true/false if a device has a case.
+     * @return Returns true if device has a case, false if it does not.
      */
-    @Override
-    public String getPurpose()
+    public boolean isHasACase()
     {
-        return purpose;
+        return hasACase;
     }
-
+    
     /**
-     * Returns true if the device has a case, and false otherwise.
-     *
-     * @return Indicates true if the device has a case, and false otherwise.
-     */
-    public boolean isHasCase()
-    {
-        return hasCase;
-    }
-
-    /**
-     * Returns the operating system version.
-     *
-     * @return The operating system version.
+     * A getter methid for getting operating system of the device.
+     * @return Returns operating system version.
      */
     public String getOperatingSystemVersion()
     {
         return operatingSystemVersion;
     }
-
+    
     /**
-     * Sets the purpose of the device.
-     *
-     * @param purpose The purpose of the device.
+     * A setter method for setting true/false if a device has a case.
+     * @param newHasACase True if device has a case, false if it does not.
      */
-    @Override
-    public void setPurpose(final String purpose)
+    public void setHasACase(final boolean newHasACase)
     {
-        this.purpose = purpose;
+        this.hasACase = newHasACase;
     }
-
+    
     /**
-     * Sets the boolean indicating if the device has a case.
-     *
-     * @param hasCase Indicates true if the device has a case, and false otherwise.
+     * A setter method for setting new operating system.
+     * This method will validate new operating system before setting it.
+     * If new operating system is not valid no change will ocuur.
+     * @param newOperatingSystemVersion New operating system version.
      */
-    public void setHasCase(final boolean hasCase)
+    public void setOperatingSystemVersion(final String newOperatingSystemVersion)
     {
-        this.hasCase = hasCase;
+        if(validateOperatingSystemVersion(newOperatingSystemVersion))
+        {
+            this.operatingSystemVersion = newOperatingSystemVersion;
+        }
     }
-
-    /**
-     * Sets the operating system version.
-     *
-     * @param operatingSystemVersion The operating system version.
-     */
-    public void setOperatingSystemVersion(final String operatingSystemVersion)
+    
+//    /**
+//     * A private method for validating operating system version.
+//     * @param operatingSystemToValidate Operating system version to validate.
+//     * @return Returns true if parameter if valid, false if parameter is null of blank.
+//     */
+    private boolean validateOperatingSystemVersion(final String operatingSystemToValidate)
     {
-        this.operatingSystemVersion = operatingSystemVersion;
+        if(operatingSystemToValidate == null || operatingSystemToValidate.isBlank())
+        {
+            return false;
+        }
+        return true;
     }
-
+    
     /**
-     * Prints all instance variables of this class.
+     * Method prints out all details of the device in a form of:
+     *"This is a class IPad, it has  a case, and linux version of the operating system."
      */
     @Override
     public void printDetails()
     {
-        System.out.println("purpose = " + purpose);
-        System.out.println("hasCase = " + hasCase);
-        System.out.println("operatingSystemVersion = " + operatingSystemVersion);
+        final StringBuilder sb;
+        final String        details;
+        
+        sb = new StringBuilder();
+        
+        sb.append("This is a ");
+        sb.append(this.getClass());
+        sb.append(", it has ");
+        if(hasACase)
+        {
+            sb.append(" a case, and ");
+        }
+        else
+        {
+            sb.append("no case, and ");
+        }
+        sb.append(operatingSystemVersion);
+        sb.append(" version of the operating system.");
+        
+        details = sb.toString();
+        
+        System.out.println(details);
     }
-
+    
     /**
      * Overrides the toString() method to print all instance variables in the hierarchy.
      *
@@ -116,14 +129,24 @@ public class IPad extends IDevice
     @Override
     public String toString()
     {
-        return "IPad{" +
-           "purpose='" + purpose + '\'' +
-           ", hasCase=" + hasCase +
-           ", operatingSystemVersion='" + operatingSystemVersion + '\'' +
-           ", purpose='" + purpose + '\'' +
-           "} " + super.toString();
+        return super.toString() +
+                "IPad{" +
+                "hasACase=" + hasACase +
+                ", operatingSystemVersion='" + operatingSystemVersion + '\'' +
+                '}';
     }
-
+    
+    /**
+     * Returns the hashcode of this class.
+     *
+     * @return The hashcode of this class.
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+    
     /**
      * Overrides the equals() method to compare objects and return true or false according to the following criteria:
      * True if they are the same object.
@@ -141,28 +164,20 @@ public class IPad extends IDevice
         {
             return true;
         }
-
+        
         if(o == null)
         {
             return false;
         }
-
-        if(!(o instanceof final IPad that))
+        
+        if(!(o instanceof IPad))
         {
             return false;
         }
-
-        return Objects.equals(operatingSystemVersion, that.operatingSystemVersion);
-    }
-
-    /**
-     * Returns the hashcode of the operating system version of this class.
-     *
-     * @return The hashcode of the operating system version of this class.
-     */
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(operatingSystemVersion);
+        
+        final IPad that;
+        that = (IPad) o;
+        
+        return this.operatingSystemVersion.equalsIgnoreCase(that.operatingSystemVersion);
     }
 }

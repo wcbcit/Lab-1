@@ -1,11 +1,7 @@
-import java.util.Objects;
-
 /**
- * The IPhoneFifteen class represents an iphone fifteen device.
- * It extends the IDevice class.
- * It contains inherited instance variables to store the purpose, minutes remaining on the plan, and the carrier of the device.
- * It also contains unique instance variables to indicate if it has a high resolution camera and store the memory in gigs.
- * It contains getters and setters for all instance variables.
+ * The IPhoneFifteen class represents the class of Iphone15 devices.
+ * It contains an instance variable to store gigabytes of memory and a boolean for if a phone has a high resolution camera.
+ * It contains a getter and setter for the instance variable.
  * It contains a method to print the details of the device.
  * It also contains methods to override toString(), equals(), and hashCode().
  *
@@ -15,153 +11,88 @@ import java.util.Objects;
  */
 public class IPhoneFifteen extends IPhone
 {
-    private String  purpose;
-    private double  minutesRemainingOnPlan;
-    private String  carrier;
-    private boolean hasHighResCamera;
-    private int     memoryGigs;
-
+    private boolean highResolutionCamera;
+    private int gigabytesOfMemory;
+    public static final int MIN_MEMORY_IN_GIGABYTES = 0;
+    
     /**
-     * Constructs an IPhoneFifteen object.
-     *
-     * @param minutesRemainingOnPlan The minutes remaining on the plan.
-     * @param carrier                The carrier of the device.
-     * @param hasHighResCamera       Indicates true if the device has a high resolution camera, and false if not.
-     * @param memoryGigs             The amount of memory in gigs.
+     * A constructor.
+     * @param numberOfMinutesRemainingOnPhonePlan Number of minutes remaining ob the phone plan.
+     * @param carrier Phone carrier.
+     * @param highResolutionCamera True if phone has high resolution camera, false if it does not.
+     * @param gigabytesOfMemory Gigabytes of memory.
      */
-    public IPhoneFifteen(final double  minutesRemainingOnPlan,
+    public IPhoneFifteen(final double  numberOfMinutesRemainingOnPhonePlan,
                          final String  carrier,
-                         final boolean hasHighResCamera,
-                         final int     memoryGigs)
+                         final boolean highResolutionCamera,
+                         final int     gigabytesOfMemory)
     {
-        super(minutesRemainingOnPlan, carrier);
-
-        this.minutesRemainingOnPlan = super.getMinutesRemainingOnPlan();
-        this.carrier                = super.getCarrier();
-        this.purpose                = super.getPurpose();
-        this.hasHighResCamera       = hasHighResCamera;
-        this.memoryGigs             = memoryGigs;
+        super(numberOfMinutesRemainingOnPhonePlan, carrier);
+        
+        if(!validateGigabytesOfMemory(gigabytesOfMemory))
+        {
+           throw new IllegalArgumentException("Invalid memory:" + gigabytesOfMemory) ;
+        }
+        
+        this.highResolutionCamera = highResolutionCamera;
+        this.gigabytesOfMemory    = gigabytesOfMemory;
     }
-
+    
     /**
-     * Returns the purpose of the device.
-     *
-     * @return The purpose of the device.
+     * A getter method for high resolution camera.
+     * @return Returns true if phone has high resolution camera, false if it does not.
      */
-    @Override
-    public String getPurpose()
+    public boolean isHighResolutionCamera()
     {
-        return purpose;
+        return highResolutionCamera;
     }
-
+    
     /**
-     * Returns the minutes remaining on the plan.
-     *
-     * @return The minutes remaining on the plan.
+     * A getter method for gigabytes of memory.
+     * @return Returns gigabytes of memory.
      */
-    @Override
-    public double getMinutesRemainingOnPlan()
+    public int getGigabytesOfMemory()
     {
-        return minutesRemainingOnPlan;
+        return gigabytesOfMemory;
     }
-
+    
     /**
-     * Returns the carrier of the device.
-     *
-     * @return The carrier of the device.
+     * A setter method for high resolution camera.
+     * @param newHighResolutionCamera True if phone has high resolution camera, false if it does not.
      */
-    @Override
-    public String getCarrier()
+    public void setHighResolutionCamera(final boolean newHighResolutionCamera)
     {
-        return carrier;
+        this.highResolutionCamera = newHighResolutionCamera;
     }
-
+    
     /**
-     * Returns true if the device has a high resolution camera, and false if not.
-     *
-     * @return Indicates true if the device has a high resolution camera, and false if not.
+     * A setter method for gigabytes of memory.
+     * @param newGigabytesOfMemory New gigabytes of memory.
      */
-    public boolean isHasHighResCamera()
+    public void setGigabytesOfMemory(final int newGigabytesOfMemory)
     {
-        return hasHighResCamera;
+        if(validateGigabytesOfMemory(newGigabytesOfMemory))
+        {
+            this.gigabytesOfMemory = newGigabytesOfMemory;
+        }
     }
-
-    /**
-     * Returns the amount of memory in gigs.
-     *
-     * @return The amount of memory in gigs.
-     */
-    public int getMemoryGigs()
+    
+//    /**
+//     * A private method for validating gigabytes of memory.
+//     * This method validates the parameter before setting it.
+//     * No change will occur if parameter is not valid.
+//     * @param GigabytesOfMemoryToValidate Gigabytes of memory to validate.
+//     * @return Returns true if the parameter is valid, false if it is less than MIN_MEMORY_IN_GIGABYTES.
+//     */
+    private boolean validateGigabytesOfMemory(final int GigabytesOfMemoryToValidate)
     {
-        return memoryGigs;
+        if(GigabytesOfMemoryToValidate < MIN_MEMORY_IN_GIGABYTES)
+        {
+            return false;
+        }
+        return true;
     }
-
-    /**
-     * Sets the purpose of the device to a specified String.
-     *
-     * @param purpose Specified String representing a purpose.
-     */
-    @Override
-    public void setPurpose(final String purpose)
-    {
-        this.purpose = purpose;
-    }
-
-    /**
-     * Sets the minutes remaining on the plan.
-     *
-     * @param minutesRemainingOnPlan The minutes remaining on the plan.
-     */
-    @Override
-    public void setMinutesRemainingOnPlan(final double minutesRemainingOnPlan)
-    {
-        this.minutesRemainingOnPlan = minutesRemainingOnPlan;
-    }
-
-    /**
-     * Sets the carrier of the device.
-     *
-     * @param carrier The carrier of the device.
-     */
-    @Override
-    public void setCarrier(final String carrier)
-    {
-        this.carrier = carrier;
-    }
-
-    /**
-     * Sets the boolean indicating if the device has a high resolution camera.
-     *
-     * @param hasHighResCamera Indicates true if the device has a high resolution camera, and false otherwise.
-     */
-    public void setHasHighResCamera(final boolean hasHighResCamera)
-    {
-        this.hasHighResCamera = hasHighResCamera;
-    }
-
-    /**
-     * Sets the amount of memory in gigs.
-     *
-     * @param memoryGigs The amount of memory in gigs.
-     */
-    public void setMemoryGigs(final int memoryGigs)
-    {
-        this.memoryGigs = memoryGigs;
-    }
-
-    /**
-     * Prints all instance variables of this class.
-     */
-    @Override
-    public void printDetails()
-    {
-        System.out.println("purpose = " + purpose);
-        System.out.println("minutesRemainingOnPlan = " + minutesRemainingOnPlan);
-        System.out.println("carrier = " + carrier);
-        System.out.println("hasHighResCamera = " + hasHighResCamera);
-        System.out.println("memoryGigs = " + memoryGigs);
-    }
-
+    
     /**
      * Overrides the toString() method to print all instance variables in the hierarchy.
      *
@@ -170,23 +101,31 @@ public class IPhoneFifteen extends IPhone
     @Override
     public String toString()
     {
-        return "IPhoneFifteen{" +
-           "purpose='" + purpose + '\'' +
-           ", minutesRemainingOnPlan=" + minutesRemainingOnPlan +
-           ", carrier='" + carrier + '\'' +
-           ", hasHighResCamera=" + hasHighResCamera +
-           ", memoryGigs=" + memoryGigs +
-           "} " + super.toString();
+        return  super.toString() +
+                "IPhoneFifteen{" +
+                "highResolutionCamera=" + highResolutionCamera +
+                ", gigabytesOfMemory=" + gigabytesOfMemory +
+                '}';
     }
-
+    
+    /**
+     * Returns the hashcode of this class.
+     *
+     * @return The hashcode of this class.
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+    
     /**
      * Overrides the equals() method to compare objects and return true or false according to the following criteria:
      * True if they are the same object.
      * False if the parameter is null.
      * False if the parameter is not an instance of this class.
-     * True if the parameter is an instance of this class, and has the following attributes:
-     * - same minutes remaining on the plan
-     * - same boolean indicating the presence of a high resolution camera.
+     * True if the parameter is an instance of this class, and has the same number of minutes remaining on phone plan
+     * within 0.5 minutes and same high resolution camera.
      *
      * @param o The object to compare.
      * @return True if the objects are the same, according to specified criteria.
@@ -198,29 +137,22 @@ public class IPhoneFifteen extends IPhone
         {
             return true;
         }
-
-        if(o ==null)
+        
+        if(o == null)
         {
             return false;
         }
-
-        if(!(o instanceof final IPhoneFifteen that))
+        
+        if(!(o instanceof IPhoneFifteen))
         {
             return false;
         }
-
-        return Objects.equals(minutesRemainingOnPlan, that.minutesRemainingOnPlan) &&
-               Objects.equals(hasHighResCamera, that.hasHighResCamera);
-    }
-
-    /**
-     * Returns the hashcode of the minutes remaining on the plan and boolean indication the presence of a high resolution camera.
-     *
-     * @return The hashcode of the minutes remaining on the plan and boolean indication the presence of a high resolution camera.
-     */
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(minutesRemainingOnPlan, hasHighResCamera);
+        
+        final IPhoneFifteen that;
+        that = (IPhoneFifteen) o;
+        
+        return ((Math.abs(this.getNumberOfMinutesRemainingOnPhonePlan() -
+                that.getNumberOfMinutesRemainingOnPhonePlan()) < MINUTES_WITHIN) &&
+                this.highResolutionCamera == that.highResolutionCamera);
     }
 }

@@ -1,11 +1,7 @@
-import java.util.Objects;
-
 /**
- * The IPod class represents an ipod device.
- * It extends the IDevice class.
- * It contains an inherited instance variable to store the purpose of the device.
- * It also contains unique instance variables to store the number of songs stored and maximum volume in decibels.
- * It contains getters and setters for all instance variables.
+ * The IPod class represents the class of Apple IPod devices.
+ * It contains an instance variable to store the number of songs on the device and maximum volume in decibels.
+ * It contains a getter and setter for the instance variable.
  * It contains a method to print the details of the device.
  * It also contains methods to override toString(), equals(), and hashCode().
  *
@@ -15,99 +11,136 @@ import java.util.Objects;
  */
 public class IPod extends IDevice
 {
-    private static final String purposeIPod = "music";
-
-    private String purpose;
-    private int    numSongsStored;
-    private double maxVolumeDecibels;
-
+    private int    numberOfSongsStored;
+    private double maximumVolumeInDecibels;
+    public static final String IPOD_PURPOSE            = "music";
+    public static final int MIN_NUM_OF_SONGS_STORED    = 0;
+    public static final double MIN_VOLUME_IN_DECIBELS  = 0.0;
+    
     /**
-     * Constructs an IPod object.
-     *
-     * @param numSongsStored    The number of songs that can be stored.
-     * @param maxVolumeDecibels The maximum volume of the device in decibels.
+     * A constructor. Sets purpose of all Ipod devices to "music".
+     * @param numberOfSongsStored Number of songs stored on the device.
+     * @param maximumVolumeInDecibels Maximum volume of the device in decibels.
      */
-    public IPod(final int    numSongsStored,
-                final double maxVolumeDecibels)
+    public IPod(final int    numberOfSongsStored,
+                final double maximumVolumeInDecibels)
     {
-        this.purpose           = purposeIPod;
-        this.numSongsStored    = numSongsStored;
-        this.maxVolumeDecibels = maxVolumeDecibels;
+        super();
+        
+        if(!validateNumberOfSongsStored(numberOfSongsStored))
+        {
+            throw new IllegalArgumentException("Invalid number of songs:" + numberOfSongsStored);
+        }
+        
+        if(!validateMaximumVolumeInDecibels(maximumVolumeInDecibels))
+        {
+            throw new IllegalArgumentException("Invalid volume:" + maximumVolumeInDecibels);
+        }
+        
+        setPurpose(IPOD_PURPOSE);
+        this.numberOfSongsStored     = numberOfSongsStored;
+        this.maximumVolumeInDecibels = maximumVolumeInDecibels;
     }
-
+    
     /**
-     * Returns the purpose of the device.
-     *
-     * @return The purpose of the device.
+     * A getter method for number of songs stored on the device.
+     * @return Returns number of songs stored.
      */
-    @Override
-    public String getPurpose()
+    public int getNumberOfSongsStored()
     {
-        return purpose;
+        return numberOfSongsStored;
     }
-
+    
     /**
-     * Returns the number of songs that can be stored.
-     *
-     * @return The number of songs that can be stored.
+     * A getter method for maximum volume of the device in decibels.
+     * @return Returns maximum volume in decibels
      */
-    public int getNumSongsStored()
+    public double getMaximumVolumeInDecibels()
     {
-        return numSongsStored;
+        return maximumVolumeInDecibels;
     }
-
+    
     /**
-     * Returns the maximum volume in decibels.
-     *
-     * @return The maximum volume in decibels.
+     * A setter method for setting new number of songs stored by the device.
+     * Method validates the new number before setting it.
+     * If number is not valid no change will occur.
+     * @param newNumberOfSongsStored New number of songs.
      */
-    public double getMaxVolumeDecibels()
+    public void setNumberOfSongsStored(final int newNumberOfSongsStored)
     {
-        return maxVolumeDecibels;
+        if(validateNumberOfSongsStored(newNumberOfSongsStored))
+        {
+            this.numberOfSongsStored = newNumberOfSongsStored;
+        }
     }
-
+    
+//    /**
+//     * A private method for validating number of songs stored on the device.
+//     * @param numberOfSongToValidate Number of songs to be validated.
+//     * @return Returns true if the number is valid and false if it is less than MIN_NUM_OF_SONGS_STORED.
+//     */
+    private boolean validateNumberOfSongsStored(final int numberOfSongToValidate)
+    {
+        if(numberOfSongToValidate < MIN_NUM_OF_SONGS_STORED)
+        {
+            return false;
+        }
+        return true;
+    }
+    
     /**
-     * Sets the purpose of the device.
-     *
-     * @param purpose The purpose of the device.
+     * A setter method for setting new maximum volume in decibels.
+     * Method validates the new volume before setting it.
+     * If volume is not valid no change will occur.
+     * @param newMaximumVolumeInDecibels New maximum volume in decibels.
      */
-    @Override
-    public void setPurpose(final String purpose)
+    public void setMaximumVolumeInDecibels(final double newMaximumVolumeInDecibels)
     {
-        this.purpose = purpose;
+        if(validateMaximumVolumeInDecibels(newMaximumVolumeInDecibels))
+        {
+            this.maximumVolumeInDecibels = newMaximumVolumeInDecibels;
+        }
     }
-
-    /**
-     * Sets the number of songs that can be stored.
-     *
-     * @param numSongsStored The number of songs that can be stored.
-     */
-    public void setNumSongsStored(final int numSongsStored)
+    
+//    /**
+//     * A private method for validating maximum volume in decibels.
+//     * @param MaxVolumeToValidate Maximum volume in decibels to be validated.
+//     * @return Returns true if the number is valid and false if it is less than MIN_VOLUME_IN_DECIBELS.
+//     */
+    private boolean validateMaximumVolumeInDecibels(final double MaxVolumeToValidate)
     {
-        this.numSongsStored = numSongsStored;
+        if(MaxVolumeToValidate < MIN_VOLUME_IN_DECIBELS)
+        {
+            return false;
+        }
+        return true;
     }
-
+    
     /**
-     * Sets the maximum volume in decibels.
-     *
-     * @param maxVolumeDecibels The maximum volume in decibels.
-     */
-    public void setMaxVolumeDecibels(final double maxVolumeDecibels)
-    {
-        this.maxVolumeDecibels = maxVolumeDecibels;
-    }
-
-    /**
-     * Prints all instance variables of this class.
+     * Method prints out all details of the device in a form of:
+     *"This is a class IPod, it has 3 number of songs stored, with 3.0 maximum volume in decibels."
      */
     @Override
     public void printDetails()
     {
-        System.out.println("purpose = " + purpose);
-        System.out.println("numSongsStored = " + numSongsStored);
-        System.out.println("maxVolumeDecibels = " + maxVolumeDecibels);
+        final StringBuilder sb;
+        final String        details;
+        
+        sb = new StringBuilder();
+        
+        sb.append("This is a ");
+        sb.append(this.getClass());
+        sb.append(", it has ");
+        sb.append(numberOfSongsStored);
+        sb.append(" songs stored, with ");
+        sb.append(maximumVolumeInDecibels);
+        sb.append(" maximum volume in decibels.");
+        
+        details = sb.toString();
+        
+        System.out.println(details);
     }
-
+    
     /**
      * Overrides the toString() method to print all instance variables in the hierarchy.
      *
@@ -116,14 +149,24 @@ public class IPod extends IDevice
     @Override
     public String toString()
     {
-        return "IPod{" +
-           "purpose='" + purpose + '\'' +
-           ", numSongsStored=" + numSongsStored +
-           ", maxVolumeDecibels=" + maxVolumeDecibels +
-           ", purpose='" + purpose + '\'' +
-           "} " + super.toString();
+        return super.toString() +
+                "IPod{" +
+                "numberOfSongsStored=" + numberOfSongsStored +
+                ", maximumVolumeInDecibels=" + maximumVolumeInDecibels +
+                '}';
     }
-
+    
+    /**
+     * Returns the hashcode of this class.
+     *
+     * @return The hashcode of this class.
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+    
     /**
      * Overrides the equals() method to compare objects and return true or false according to the following criteria:
      * True if they are the same object.
@@ -141,28 +184,20 @@ public class IPod extends IDevice
         {
             return true;
         }
-
-        if(o==null)
+        
+        if(o == null)
         {
             return false;
         }
-
-        if(!(o instanceof final IPod that))
+        
+        if(!(o instanceof IPod))
         {
             return false;
         }
-
-        return numSongsStored == that.numSongsStored;
-    }
-
-    /**
-     * Returns the hashcode of the number of songs stored of this class.
-     *
-     * @return The hashcode of the number of songs stored of this class.
-     */
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(numSongsStored);
+        
+        final IPod that;
+        that = (IPod) o;
+        
+        return this.numberOfSongsStored == that.numberOfSongsStored;
     }
 }

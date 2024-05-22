@@ -1,7 +1,5 @@
-import java.util.Objects;
-
 /**
- * The IDevice class represents the abstract parent class of various devices.
+ * The IDevice class represents the abstract parent class of various Apple devices.
  * It contains an instance variable to store the purpose of the device.
  * It contains a getter and setter for the instance variable.
  * It contains an abstract method to print the details of the device.
@@ -11,44 +9,45 @@ import java.util.Objects;
  * @author Walter Chu
  * @version 1.0
  */
-abstract class IDevice
+abstract public class IDevice
 {
     private String purpose;
-
+    
     /**
-     * Constructs a new IDevice with a specified purpose.
-     * The constructor is used by the subclasses to initialize the purpose of the device.
+     * A constructor.
      */
     public IDevice()
     {
         this.purpose = null;
     }
-
+    
     /**
-     * Returns the purpose of the device.
-     *
-     * @return The purpose of the device.
+     * Method to get purpose of the device.
+     * @return Returns purpose.
      */
     public String getPurpose()
     {
         return purpose;
     }
-
+    
     /**
-     * Sets the purpose of the device.
-     *
-     * @param purpose The purpose of the device..
+     * A method to set purpose of the device.
+     * @param newPurpose New purpose of the device.
      */
-    public void setPurpose(final String purpose)
+    public void setPurpose(final String newPurpose)
     {
-        this.purpose = purpose;
+        if(newPurpose == null || newPurpose.isBlank())
+        {
+            throw new IllegalArgumentException("Invalid purpose: " + newPurpose);
+        }
+        this.purpose = newPurpose;
     }
-
+    
     /**
-     * An abstract method to be used by subclasses to print details.
+     * An abstract method to print device's details.
      */
     public abstract void printDetails();
-
+    
     /**
      * Overrides the toString() method to print all instance variables in the hierarchy.
      *
@@ -58,10 +57,21 @@ abstract class IDevice
     public String toString()
     {
         return "IDevice{" +
-           "purpose='" + purpose + '\'' +
-           '}';
+                "purpose='" + purpose + '\'' +
+                '}';
     }
-
+    
+    /**
+     * Returns the hashcode of this class.
+     *
+     * @return The hashcode of this class.
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+    
     /**
      * Overrides the equals() method to compare objects and return true or false according to the following criteria:
      * True if they are the same object.
@@ -79,28 +89,20 @@ abstract class IDevice
         {
             return true;
         }
-
+        
         if(o == null)
         {
             return false;
         }
-
-        if(!(o instanceof final IDevice that))
+        
+        if(!(o instanceof IDevice))
         {
             return false;
         }
-
-        return Objects.equals(purpose, that.purpose);
-    }
-
-    /**
-     * Returns the hashcode of the purpose of this class.
-     *
-     * @return The hashcode of the purpose of this class.
-     */
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(purpose);
+        
+        final IDevice that;
+        that = (IDevice) o;
+        
+        return this.purpose == that.purpose;
     }
 }
